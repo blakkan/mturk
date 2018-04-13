@@ -38,7 +38,7 @@ mean(df$post_beef[df$sex=="Female" & df$video_type=="I"])
 # try a simple regression; set male and Irrigation video as reference levels for those factors
 df$sex <-relevel(df$sex, ref = "Male")
 df$video_type <-relevel(df$video_type, ref = "I")
-df$vegetarian <- (df$pre_beef == 0) & (df$post_beef == 0) & (df$pre_pork == 0) & (df$post_pork == 0)
+df$vegetarian <- (df$pre_beef == 0) &(df$pre_pork == 0) 
 model1 = lm( post_beef ~ pre_beef + vegetarian + factor(sex)*factor(video_type)*vegetarian, data=df)
 summary(model1)
 ```
