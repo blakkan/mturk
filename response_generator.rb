@@ -230,6 +230,12 @@ def complete_a_survey
   sleep 0.2
   browser.element(:css, "[name=\"#{id_string_prefix}~2\"]").children[video[video_number][:second_digit]].click
 
+  #put in a few errors
+  if rand(40) == 0
+    sleep 0.2
+    browser.element(:css, "[name=\"#{id_string_prefix}~2\"]").children[video[video_number][:first_digit]].click
+  end
+
   treatment_effect = nil
   if video_number == "263669422" || video_number == "263669416"
     treatment_effect = 0   #water video
