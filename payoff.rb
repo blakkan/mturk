@@ -140,7 +140,9 @@ qualtrics_tbl.by_col!
 [:responseid, :responseset, :ipaddress, :startdate, :enddate,
  :recipientlastname, :recipientfirstname, :recipientemail, :externaldatareference,
  :finished, :status, :robrfl_10, :doqq10, :doqq8, :doqq11, :locationlatitude,
- :locationlongitude, :locationaccuracy ].each { |s| qualtrics_tbl.delete(s) }
+ :locationlongitude, :locationaccuracy, :q16_1_group, :q16_2_group,
+ :q16_3_group, :q16_4_group, :q16_5_group,
+ :doqq14, :doqq15, :doqq17].each { |s| qualtrics_tbl.delete(s) }
 
  ["q2_", "q3_", "q4_", "q5_", "q6_", "q7_"].each do |prefix|
 
