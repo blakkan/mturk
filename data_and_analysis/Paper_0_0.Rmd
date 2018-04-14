@@ -1,0 +1,106 @@
+---
+title: "Effect of : redo with RSE"
+author:  John Blakkan, Andres Borrero, Jason Liu
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(stargazer)
+```
+
+## Introduction and motivation
+
+Travelers of Interstate Highway 5 (I-5) pass a memorable landmark in California's Central Valley- the Harris Ranch feedlot.  Located near the intersection of I-5 and California Route 198, it is readily visible from I-5 to motorists.  It is also well-known for the pungent smell of thousands of cattle, usually noticable for several miles.  
+
+For city-dwellers and other travelers unfamiliar with feedlots, the sight (and smell) may be shocking.  An obvious speculation is that beef consumers may, upon viewing the conditions under which cattle are raised in their final weeks prior to slaughter, exhibit a reduced demand for beef.
+
+## Summary findings
+
+We found blah blah blah.   See figure XYZ.   TOTO: use RSE
+
+## Methods
+
+# Subjects
+
+Mturk (mention English and Spanish populations)
+
+# Survey
+
+Talk about demographic section (and co-variatds) treatment videos, "attention-test" digit for compliance test, post-test question and rank order.Give hard link.
+
+# Randomization
+
+# Data pipeline
+
+# Analysis
+
+
+
+```{r}
+df = read.csv("trial.csv")   #This file has some dummy data in which femail participants who see a feedlot video
+                             # reduce their beef consumption next week by one meail, wiht probablity of 50%.
+#rename some columns
+# pre_ is weekly consumption before they watch the video
+# post_ is weekly plan for next week
+
+names(df)[names(df) == 'q10_5_text'] <- 'pre_beef'
+names(df)[names(df) == 'q11_5_text'] <- 'post_beef'
+names(df)[names(df) == 'q10_6_text'] <- 'pre_pork'
+names(df)[names(df) == 'q11_6_text'] <- 'post_pork'
+names(df)[names(df) == 'q9'] <- 'sex'
+summary(df)
+
+# remember, video_type:  "F" => feedlot, "P" => Pasture, "I" => Irrigation
+# Create a new column "vegetarian" for those who never eat meat before treatment
+#mean(df$pre_beef)
+#mean(df$post_beef)
+#mean(df$post_beef[df$sex=="Male"])
+#mean(df$post_beef[df$sex=="Female"])
+#mean(df$post_beef[df$sex=="Female" & df$video_type=="F"])
+#mean(df$post_beef[df$sex=="Female" & df$video_type=="P"])
+#mean(df$post_beef[df$sex=="Female" & df$video_type=="I"])
+
+
+# try a simple regression; set male and Irrigation video as reference levels for those factors
+df$sex <-relevel(df$sex, ref = "Male")
+df$video_type <-relevel(df$video_type, ref = "I")
+df$vegetarian <- (df$pre_beef == 0) & (df$pre_pork == 0)
+model1 = lm( post_beef ~ pre_beef + vegetarian + factor(sex)*factor(video_type)*vegetarian, data=df)
+summary(model1)
+```
+
+Nicer output courtesy of stargazer
+
+```{r results="asis"}
+stargazer(model1, type="latex", header=FALSE, no.space=FALSE)
+```
+```{r}
+# Now try it with standarized beef scores
+
+df$standardized_pre_beef <- scale(df$pre_beef)
+df$standardized_post_beef <- scale(df$post_beef)
+model2 = lm( standardized_post_beef ~ standardized_pre_beef + vegetarian + factor(sex)*factor(video_type)*vegetarian, data=df)
+summary(model2)
+```
+```{r results="asis"}
+stargazer(model2, type="latex", header=FALSE, no.space=FALSE)
+```
+
+## Conclusions and directions for further investigations
+
+## Appendix:  Notes on mehods
+
+# Qualtrics
+
+# Amazon Mechanical Turk
+
+# Production of Treatment and Control Videos
+  Field trips
+  Editing and rendering
+  Hosting
+
+# Support Scripts
+  Pulling results from qualtrics
+  Paying subjects
+  Automated test/validation generation
