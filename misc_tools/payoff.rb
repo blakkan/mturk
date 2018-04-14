@@ -35,8 +35,9 @@ end
 #
 
 j = QualtricsAPI.surveys.collect.find do |survey|
-  survey.name =~ /Videos/
+  survey.name =~ /Pilot3/
 end
+
 
 export_service = j.export_responses({"format" => "csv", "use_labels" => true})
 export = export_service.start
