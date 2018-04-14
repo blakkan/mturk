@@ -1,5 +1,5 @@
 ---
-title: "spud"
+title: "spud: redo with RSE"
 output: pdf_document
 ---
 
@@ -42,7 +42,7 @@ summary(df)
 # try a simple regression; set male and Irrigation video as reference levels for those factors
 df$sex <-relevel(df$sex, ref = "Male")
 df$video_type <-relevel(df$video_type, ref = "I")
-df$vegetarian <- (df$pre_beef == 0) &(df$pre_pork == 0) 
+df$vegetarian <- (df$pre_beef == 0) & (df$pre_pork == 0)
 model1 = lm( post_beef ~ pre_beef + vegetarian + factor(sex)*factor(video_type)*vegetarian, data=df)
 summary(model1)
 ```
@@ -50,5 +50,16 @@ summary(model1)
 Nicer output courtesy of stargazer
 
 ```{r results="asis"}
-stargazer(model1, type="latex", header=FALSE)
+stargazer(model1, type="latex", header=FALSE, no.space=FALSE)
+```
+```{r}
+# Now try it with standarized beef scores
+
+df$standardized_pre_beef <- scale(df$pre_beef)
+df$standardized_post_beef <- scale(df$post_beef)
+model2 = lm( standardized_post_beef ~ standardized_pre_beef + vegetarian + factor(sex)*factor(video_type)*vegetarian, data=df)
+summary(model2)
+```
+```{r results="asis"}
+stargazer(model2, type="latex", header=FALSE, no.space=FALSE)
 ```
