@@ -26,7 +26,6 @@ code_to_cumulative_bonus = {}
 QualtricsAPI.configure do |config|
   config.api_token = ENV['QUALTRICS_KEY']
 end
-
 #
 #
 # There are several surveys there, just pull in
@@ -35,9 +34,10 @@ end
 #
 
 j = QualtricsAPI.surveys.collect.find do |survey|
-  survey.name =~ /Pilot3/
+  survey.name.match(ARGV[0])
 end
 
+STDERR.puts "Survey name is #{j.name}"
 
 export_service = j.export_responses({"format" => "csv", "use_labels" => true})
 export = export_service.start
