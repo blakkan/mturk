@@ -114,7 +114,8 @@ df$sex <-relevel(df$sex, ref = "Male")
 df$video_type <-relevel(df$video_type, ref = "I")
 df$vegetarian <- (df$beef_last_week == 0) & (df$pork_last_week == 0)
 model1 = lm( beef_next_week ~ beef_last_week*vegetarian + factor(sex) + factor(video_type) + factor(sex)*factor(video_type), data=df)
-#summary(model1)
+
+summary(model1)
 ```
 
 Nicer output courtesy of stargazer
@@ -130,7 +131,7 @@ df$standardized_beef_next_week <- scale(df$beef_next_week)
 model2 = lm( standardized_beef_next_week ~ standardized_beef_last_week*vegetarian + factor(sex) + factor(video_type) + factor(sex)*factor(video_type), data=df)
 
 
-#summary(model2)
+summary(model2)
 ```
 ```{r results="asis"}
 stargazer(model2, type="latex", header=FALSE, no.space=TRUE)
