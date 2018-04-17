@@ -1,0 +1,14 @@
+.container
+  %p#notice= notice
+  %p
+    %strong Name:
+    = @widget.name
+  %p
+    %strong Description:
+    = @widget.description
+  %p
+    %strong Stock:
+    = @widget.stock
+  = link_to 'Edit', edit_widget_path(@widget)
+  |
+  = link_to 'Back', widgets_path

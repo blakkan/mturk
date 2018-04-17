@@ -1,0 +1,11 @@
+%h1 W241 Survey Results Extractor
+=form_tag('/get_csv', method: :get) do
+  %label{for: "which_survey"}
+    Select which survey from which to extract a .csv file
+  %br
+  =select_tag( "which_survey", options_for_select(Survey.list_surveys), {prompt: "Select a survey"})
+  %br
+  =submit_tag("Retrieve CSV")
+  %br
+  %a{:href => "#"}
+    Reset and retrieve a different CSV
