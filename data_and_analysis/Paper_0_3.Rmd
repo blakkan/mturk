@@ -1,7 +1,9 @@
 ---
 title: "Effect of 400 user main run: redo with RSE"
 author:  John Blakkan, Andres Borrero, Jason Liu
-output: pdf_document
+output:
+  pdf_document:
+    latex_engine: xelatex
 ---
 
 ```{r setup, include=FALSE}
@@ -111,7 +113,7 @@ summary(df)
 df$sex <-relevel(df$sex, ref = "Male")
 df$video_type <-relevel(df$video_type, ref = "I")
 df$vegetarian <- (df$beef_last_week == 0) & (df$pork_last_week == 0)
-model1 = lm( beef_next_week ~ beef_last_week*vegetarian + factor(sex) + video_type + factor(sex)*factor(video_type), data=df)
+model1 = lm( beef_next_week ~ beef_last_week*vegetarian + factor(sex) + factor(video_type) + factor(sex)*factor(video_type), data=df)
 #summary(model1)
 ```
 
@@ -125,7 +127,7 @@ stargazer(model1, type="latex", header=FALSE, no.space=TRUE)
 
 df$standardized_beef_last_week <- scale(df$beef_last_week)
 df$standardized_beef_next_week <- scale(df$beef_next_week)
-model2 = lm( standardized_beef_last_week ~ standardized_beef_next_week*vegetarian + factor(sex) + video_type + factor(sex)*factor(video_type), data=df)
+model2 = lm( standardized_beef_next_week ~ standardized_beef_last_week*vegetarian + factor(sex) + factor(video_type) + factor(sex)*factor(video_type), data=df)
 
 
 #summary(model2)
